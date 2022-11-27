@@ -16,6 +16,16 @@ class ReviewsController < ApplicationController
     render json: review, status: :created
   end
 
+  def index
+    if params[:dog_house_id]
+      dog_house = DogHouse.find(params[:dog_house_id])
+      reviews = dog_house.reviews
+    else
+      reviews = Review.all
+    end
+    render json: reviews, include: :dog_house
+  end
+
   private
 
   def render_not_found_response
